@@ -2,13 +2,20 @@ import pandas as pd
 from inewave.newave.dger import DGer
 from inewave.newave.vazoes import Vazoes
 
-def le_cenarios(dir):
+def le_cenarios(dir, early = False):
     arq_cenarios = dir + "/cenarios_vazao.csv"
+
     cenarios = pd.read_csv(arq_cenarios)
     nmeses = cenarios.shape[1] - 2
+
     indcen = cenarios["CENARIO"].unique()
     ncens = len(indcen)
+
     postos = cenarios["POSTO"].unique()
+
+    if early:
+        return (nmeses, ncens)
+
     out = []
     for i in indcen:
         aux = cenarios[cenarios["CENARIO"] == i]
