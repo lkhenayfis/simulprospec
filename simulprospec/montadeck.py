@@ -1,3 +1,4 @@
+from inspect import _void
 import pandas as pd
 from inewave.newave.dger import DGer
 from inewave.newave.vazoes import Vazoes
@@ -39,14 +40,38 @@ def le_cenarios(dir: str, early: bool = False) -> tuple:
 
     return (out, nmeses, ncens)
 
-def modifica_dger(dir):
+def modifica_dger(dir: str) -> None:
+
+    """
+    Modifica o dger.dat para rodar apenas simulacao final com series historicas
+
+    Parametros
+    ----------
+    dir : str
+        Diretorio onde se encontram os arquivos de entrada do caso
+    """
+
     dadosgerais = DGer.le_arquivo(dir)
+
     dadosgerais.tipo_execucao = 0
     dadosgerais.tipo_simulacao_final = 2
+
     dadosgerais.escreve_arquivo(dir)
+
     pass
 
-def modifica_vazoes(dir):
+def modifica_vazoes(dir: str) -> None:
+
+    """
+    Modifica o vazoes.dat com os cenarios externos. 
+
+    Parametros
+    ----------
+    dir : str
+        Diretorio onde se encontram os arquivos de entrada do caso e o arquivo de cenarios chamado
+        cenarios_vazao.csv
+    """
+
     dadosgerais = DGer.le_arquivo(dir)
     mesini = dadosgerais.mes_inicio_estudo
 
@@ -66,4 +91,5 @@ def modifica_vazoes(dir):
         vazoes.vazoes.loc[reg_muda[i], vazoes.vazoes.columns] = cenarios[i]
     
     vazoes.escreve_arquivo(dir)
+
     pass
