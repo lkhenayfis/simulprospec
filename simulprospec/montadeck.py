@@ -2,7 +2,21 @@ import pandas as pd
 from inewave.newave.dger import DGer
 from inewave.newave.vazoes import Vazoes
 
-def le_cenarios(dir, early = False):
+def le_cenarios(dir: str, early: bool = False) -> tuple:
+
+    """
+    Le um arquivo de cenarios para simulacao num formato especifico pre determinado em conjunto com
+    a PRH
+    
+    Parametros
+    ----------
+    dir : str
+        Diretorio onde se encontra o arquivo de cenarios (nomeado cenarios_vazao.csv)
+    early : bool
+        Booleano indicando se deve ser retornado uma tupla com o arquivo de cenarios processado,
+        numero de meses e numero de cenarios (True) ou apenas numero de meses e de cenarios (False)
+    """
+
     arq_cenarios = dir + "/cenarios_vazao.csv"
 
     cenarios = pd.read_csv(arq_cenarios)
