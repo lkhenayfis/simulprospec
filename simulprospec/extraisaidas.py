@@ -15,7 +15,17 @@ from inewave.nwlistop.earmfpsin import EarmfpSIN
 from inewave.nwlistop.eafbsin import EafbSIN
 from inewave.nwlistop.ghtotsin import GhtotSIN
 
-def arruma_blockfile(data):
+def arruma_blockfile(data: pd.DataFrame) -> pd.DataFrame:
+
+    """
+    Organiza um DataFrame na estrutura de blocos em um formato orientado por series
+    nas colunas com a data correspondente nos labels
+
+    Parametros
+    ----------
+    data : pandas.DataFrame
+        um DataFrame com o arquivo em blocos lido pelas classes em inewave.nwlistop
+    """
 
     anos = data["Ano"].unique().tolist()
     labels = pd.date_range(
@@ -33,7 +43,24 @@ def arruma_blockfile(data):
 
     return out
 
-def le_aquivoREE(dir, cls, infocens, dataref):
+def le_aquivoREE(dir: str, cls: type, infocens: tuple, dataref: tuple) -> pd.DataFrame:
+
+    """
+    Realiza a leitura de um arquivo de simulacao final por REE em blocos qualquer
+    localizado no diretorio dir
+
+    Parametros
+    ----------
+    dir : str
+        Diretorio contendo saidas do NWLISTOP
+    cls : type
+        Uma classe herdando de ArquivoREE para leitura do arquivo
+    infocens : tuple
+        Tupla contendo comprimento dos cenarios e numero de cenarios simulados,
+        respectivamente
+    dataref : tuple
+        Tupla contendo ano e mes, como inteiros, da data de referencia do PMO
+    """
 
     datas_simul = pd.date_range(
         datetime(year = dataref[0], month = dataref[1], day = 1),
@@ -52,7 +79,24 @@ def le_aquivoREE(dir, cls, infocens, dataref):
 
     return dados
 
-def le_aquivoSIN(dir, cls, infocens, dataref):
+def le_aquivoSIN(dir: str, cls: type, infocens: tuple, dataref: tuple) -> pd.DataFrame:
+
+    """
+    Realiza a leitura de um arquivo de simulacao final do SIN em blocos qualquer
+    localizado no diretorio dir
+
+    Parametros
+    ----------
+    dir : str
+        Diretorio contendo saidas do NWLISTOP
+    cls : type
+        Uma classe herdando de ArquivoSIN para leitura do arquivo
+    infocens : tuple
+        Tupla contendo comprimento dos cenarios e numero de cenarios simulados,
+        respectivamente
+    dataref : tuple
+        Tupla contendo ano e mes, como inteiros, da data de referencia do PMO
+    """
 
     datas_simul = pd.date_range(
         datetime(year = dataref[0], month = dataref[1], day = 1),
@@ -66,7 +110,21 @@ def le_aquivoSIN(dir, cls, infocens, dataref):
 
     return dados
 
-def le_saidas(dir, infocens = None, dataref = None):
+def le_saidas(dir: str, infocens: tuple, dataref: tuple) -> None:
+
+    """
+    Leitura dos arquivos simulados de interesse e salvamento de um zip os contendo
+
+    Parametros
+    ----------
+    dir : str
+        Diretorio contendo saidas do NWLISTOP
+    infocens : tuple
+        Tupla contendo comprimento dos cenarios e numero de cenarios simulados,
+        respectivamente
+    dataref : tuple
+        Tupla contendo ano e mes, como inteiros, da data de referencia do PMO
+    """
 
     if infocens is None:
         infocens = le_cenarios(dir, True)
