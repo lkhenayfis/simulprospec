@@ -110,7 +110,7 @@ def le_aquivoSIN(dir: str, cls: type, infocens: tuple, dataref: tuple) -> pd.Dat
 
     return dados
 
-def le_saidas(dir: str, infocens: tuple, dataref: tuple) -> None:
+def le_saidas(dir: str) -> None:
 
     """
     Leitura dos arquivos simulados de interesse e salvamento de um zip os contendo
@@ -119,18 +119,10 @@ def le_saidas(dir: str, infocens: tuple, dataref: tuple) -> None:
     ----------
     dir : str
         Diretorio contendo saidas do NWLISTOP
-    infocens : tuple
-        Tupla contendo comprimento dos cenarios e numero de cenarios simulados,
-        respectivamente
-    dataref : tuple
-        Tupla contendo ano e mes, como inteiros, da data de referencia do PMO
     """
 
-    if infocens is None:
-        infocens = le_cenarios(dir, True)
-    
-    if dataref is None:
-        dataref = (DGer.le_arquivo(dir).ano_inicio_estudo, DGer.le_arquivo(dir).mes_inicio_estudo)
+    infocens = le_cenarios(dir, True)
+    dataref = (DGer.le_arquivo(dir).ano_inicio_estudo, DGer.le_arquivo(dir).mes_inicio_estudo)
 
     tempdir = tempfile.mkdtemp()
     outzip = os.path.join(dir, "simul_prospec.zip")
