@@ -147,13 +147,13 @@ def le_saidas(dir: str, infocens: tuple, dataref: tuple) -> None:
     gttot_merc = le_aquivoREE(dir, Gttot, infocens, dataref)
     gttot_merc.to_csv(os.path.join(tempdir, "gttot_merc.csv"))
 
-    earm_sin = le_aquivoSIN(dir, Earmfp, infocens, dataref)
+    earm_sin = le_aquivoSIN(dir, EarmfpSIN, infocens, dataref)
     earm_sin.to_csv(os.path.join(tempdir, "earm_sin.csv"))
 
-    eafb_sin = le_aquivoSIN(dir, Eafb, infocens, dataref)
+    eafb_sin = le_aquivoSIN(dir, EafbSIN, infocens, dataref)
     eafb_sin.to_csv(os.path.join(tempdir, "eafb_sin.csv"))
 
-    ghtot_sin = le_aquivoSIN(dir, Ghtot, infocens, dataref)
+    ghtot_sin = le_aquivoSIN(dir, GhtotSIN, infocens, dataref)
     ghtot_sin.to_csv(os.path.join(tempdir, "ghtot_sin.csv"))
 
     with ZipFile(outzip, "w") as zip:
