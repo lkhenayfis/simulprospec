@@ -1,3 +1,7 @@
 inewave==0.0.71
 pandas
 click
+os
+zipfile
+tempfile
+datetime
