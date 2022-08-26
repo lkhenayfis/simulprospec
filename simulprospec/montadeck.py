@@ -21,6 +21,10 @@ def le_cenarios(dir: str, early: bool = False) -> tuple:
     arq_cenarios = dir + "/cenarios_vazao.csv"
 
     cenarios = pd.read_csv(arq_cenarios)
+    colunas = []
+    for i in range(cenarios.columns.shape[0]):
+        colunas.append(cenarios.columns[i].upper())
+    cenarios.columns = colunas
     nmeses = cenarios.shape[1] - 2
 
     indcen = cenarios["CENARIO"].unique()
