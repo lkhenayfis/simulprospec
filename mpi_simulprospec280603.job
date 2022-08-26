@@ -23,7 +23,7 @@ echo Executando o ConverteNomesArquivos
 $CONVERTE
 
 echo Modificando arquivos de entrada
-python3 $DIR_SIMULPROSPEC/main.py montadeck .
+python3 $DIR_SIMULPROSPEC/main.py montaentradas .
 
 echo Executando o NEWAVE
 $MPI_EXEC -np $NUM_PROC $NEWAVE
