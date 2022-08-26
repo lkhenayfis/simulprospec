@@ -141,7 +141,7 @@ def le_aquivoSIN(dir: str, cls: type, infocens: tuple, dataref: tuple) -> pd.Dat
         freq = "MS",
     )
 
-    earm_sin = cls.le_arquivo(dir, cls.__name__.lower() + "sin.out")
+    earm_sin = cls.le_arquivo(dir, cls.__name__.lower() + ".out")
     dados = arruma_blockfile(earm_sin.valores)
     dados = dados.loc[datas_simul, 1:infocens[1]]
 
@@ -173,7 +173,7 @@ def le_saidas(dir: str) -> None:
     ghtot_ree = le_aquivoREE(dir, Ghtot, infocens, dataref)
     ghtot_ree.to_csv(os.path.join(tempdir, "ghtot_ree.csv"))
 
-    gttot_merc = le_aquivoREE(dir, Gttot, infocens, dataref)
+    gttot_merc = le_aquivoMERC(dir, Gttot, infocens, dataref)
     gttot_merc.to_csv(os.path.join(tempdir, "gttot_merc.csv"))
 
     earm_sin = le_aquivoSIN(dir, EarmfpSIN, infocens, dataref)
