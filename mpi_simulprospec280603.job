@@ -7,7 +7,7 @@ DIR_NEWAVE=~/versoes/NEWAVE/v28.6.3
 NEWAVE=$DIR_NEWAVE/newave280603_CPAMP_L
 CONVERTE=$DIR_NEWAVE/ConverteNomesArquivos
 
-DIR_SIMULPROSPEC=~/rotinas/simulacao-prospectivo/simulprospec
+DIR_SIMULPROSPEC=~/rotinas/simulacao-prospectivo
 
 echo Ativando o ambiente virtual
 source $DIR_SIMULPROSPEC/venv/bin/activate
