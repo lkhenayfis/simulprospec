@@ -72,10 +72,10 @@ def le_aquivoREE(dir: str, cls: type, infocens: tuple, dataref: tuple) -> pd.Dat
     rees = REE.le_arquivo(dir)
     dados = pd.DataFrame()
     for i in range(rees.rees.shape[0]):
-        earm_ree = cls.le_arquivo(dir, cls.__name__.lower() + "%03d" %(i + 1) + ".out")
-        vals = arruma_blockfile(earm_ree.valores)
+        dado_i = cls.le_arquivo(dir, cls.__name__.lower() + "%03d" %(i + 1) + ".out")
+        vals = arruma_blockfile(dado_i.valores)
         vals = vals.loc[datas_simul, 1:infocens[1]]
-        vals["REE"] = earm_ree.ree
+        vals["REE"] = dado_i.ree
         dados = pd.concat([dados, vals])
 
     return dados
