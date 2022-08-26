@@ -1,0 +1,52 @@
+CASO=`basename $PWD`
+WORKDIR=$PWD
+NUM_PROC=$1
+MPI_EXEC=mpiexec
+
+DIR_NEWAVE=~/versoes/NEWAVE/v28.6.3
+NEWAVE=$DIR_NEWAVE/newave280603_CPAMP_L
+CONVERTE=$DIR_NEWAVE/ConverteNomesArquivos
+
+DIR_SIMULPROSPEC=~/rotinas/simulacao-prospectivo
+
+echo Ativando o ambiente virtual
+source $DIR_SIMULPROSPEC/venv/bin/activate
+
+echo Mudando o diretorio para $WORKDIR
+cd $WORKDIR
+
+echo Unzipando arquivos necessarios
+unzip deck*.zip
+unzip saidas*.zip cortes.dat cortesh.dat newdesp.dat eng*.dat
+
+echo Executando o ConverteNomesArquivos
+$CONVERTE
+
+echo Modificando arquivos de entrada
+python3 $DIR_SIMULPROSPEC/main.py montadeck .
+
+echo Executando o NEWAVE
+$MPI_EXEC -np $NUM_PROC $NEWAVE
+
+echo Tamanho total da pasta
+echo $(du -sh .)
+
+echo Manipulando saidas da simulacao
+python3 $DIR_SIMULPROSPEC/main.py extraisaidas .
+
+echo Desativando ambiente virtual
+deactivate
+
+echo Compactando arquivos de saída
+
+ARQS_DECK="adterm.dat agrint.dat arquivos.dat BID.DAT c_adic.dat caso.dat cvar.dat sar.dat CDEFVAR.DAT clast.dat confhd.dat conft.dat curva.dat dger.dat dsvagua.dat vazpast.dat ELNINO.DAT ENSOAUX.DAT exph.dat expt.dat ghmin.dat gtminpat.dat hidr.dat ITAIPU.DAT loss.dat manutt.dat modif.dat patamar.dat penalid.dat postos.dat shist.dat sistema.dat term.dat vazoes.dat format.tmp mensag.tmp NewaveMsgPortug.txt tecno.dat selcor.dat re.dat ree.dat clasgas.dat abertura.dat gee.dat eafpast.dat indices.csv eolica*.csv"
+
+ARQS_SAIDA="avl_*.dat fpha*.svc arq_bases.bin rsar*.dat prociter.rel cortes.dat cortesh.dat cortese.dat ppquente.dat eng*.dat energia*.dat energia*.csv enavaz*.dat vazao*.dat vazao*.csv vento*.dat vento*.csv forward.dat forwarh.dat newave.tim newdesp.dat parp.dat parpeol.dat parpvaz.dat planej.dat CONVERG.TMP"
+
+ARQS_NWLISTOP="*.out *.CSV"
+
+zip -9 deck_simulprospec_`basename $PWD`.zip $ARQS_DECK
+
+echo Excluíndo arquivos temporarios
+rm $ARQS_SAIDA
+rm $ARQS_NWLISTOP
