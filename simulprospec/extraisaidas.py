@@ -6,6 +6,7 @@ from simulprospec.montadeck import le_cenarios
 from zipfile import ZipFile
 from inewave.config import MESES_DF
 from inewave.newave.ree import REE
+from inewave.newave.sistema import Sistema
 from inewave.newave.dger import DGer
 from inewave.nwlistop.earmfp import Earmfp
 from inewave.nwlistop.eafb import Eafb
@@ -75,6 +76,42 @@ def le_aquivoREE(dir: str, cls: type, infocens: tuple, dataref: tuple) -> pd.Dat
         vals = arruma_blockfile(earm_ree.valores)
         vals = vals.loc[datas_simul, 1:infocens[1]]
         vals["REE"] = earm_ree.ree
+        dados = pd.concat([dados, vals])
+
+    return dados
+
+def le_aquivoMERC(dir: str, cls: type, infocens: tuple, dataref: tuple) -> pd.DataFrame:
+
+    """
+    Realiza a leitura de um arquivo de simulacao final por REE em blocos qualquer
+    localizado no diretorio dir
+
+    Parametros
+    ----------
+    dir : str
+        Diretorio contendo saidas do NWLISTOP
+    cls : type
+        Uma classe herdando de ArquivoREE para leitura do arquivo
+    infocens : tuple
+        Tupla contendo comprimento dos cenarios e numero de cenarios simulados,
+        respectivamente
+    dataref : tuple
+        Tupla contendo ano e mes, como inteiros, da data de referencia do PMO
+    """
+
+    datas_simul = pd.date_range(
+        datetime(year = dataref[0], month = dataref[1], day = 1),
+        datetime(year = dataref[0], month = dataref[1] + infocens[0] - 1, day = 1),
+        freq = "MS",
+    )
+
+    submercs = Sistema.le_arquivo(dir).mercado_energia["Subsistema"].unique()
+    dados = pd.DataFrame()
+    for i in submercs:
+        dado_i = cls.le_arquivo(dir, cls.__name__.lower() + "%03d" %(i) + ".out")
+        vals = arruma_blockfile(dado_i.valores)
+        vals = vals.loc[datas_simul, 1:infocens[1]]
+        vals["SUBMERCADO"] = i
         dados = pd.concat([dados, vals])
 
     return dados
