@@ -44,6 +44,35 @@ def arruma_blockfile(data: pd.DataFrame) -> pd.DataFrame:
 
     return out
 
+def gera_vetor_datas(infocens: tuple, dataref: tuple):
+
+    """
+    Monta vetor de datas para subset dos DataFrames de dados
+
+    Parametros
+    ----------
+    infocens : tuple
+        Tupla contendo comprimento dos cenarios e numero de cenarios simulados,
+        respectivamente
+    dataref : tuple
+        Tupla contendo ano e mes, como inteiros, da data de referencia do PMO
+    """
+
+    if dataref[1] + infocens[0] - 1 > 12:
+        endmonth = dataref[1] + infocens[0] - 1 - 12
+        endyear = dataref[0] + 1
+    else:
+        endmonth = dataref[1] + infocens[0] - 1
+        endyear = dataref[0]
+
+    datas_simul = pd.date_range(
+        datetime(year = dataref[0], month = dataref[1], day = 1),
+        datetime(year = endyear, month = endmonth, day = 1),
+        freq = "MS",
+    )
+
+    return datas_simul
+
 def le_aquivoREE(dir: str, cls: type, infocens: tuple, dataref: tuple) -> pd.DataFrame:
 
     """
@@ -63,11 +92,7 @@ def le_aquivoREE(dir: str, cls: type, infocens: tuple, dataref: tuple) -> pd.Dat
         Tupla contendo ano e mes, como inteiros, da data de referencia do PMO
     """
 
-    datas_simul = pd.date_range(
-        datetime(year = dataref[0], month = dataref[1], day = 1),
-        datetime(year = dataref[0], month = dataref[1] + infocens[0] - 1, day = 1),
-        freq = "MS",
-    )
+    datas_simul = gera_vetor_datas(infocens, dataref)
 
     rees = REE.le_arquivo(dir)
     dados = pd.DataFrame()
@@ -99,11 +124,7 @@ def le_aquivoMERC(dir: str, cls: type, infocens: tuple, dataref: tuple) -> pd.Da
         Tupla contendo ano e mes, como inteiros, da data de referencia do PMO
     """
 
-    datas_simul = pd.date_range(
-        datetime(year = dataref[0], month = dataref[1], day = 1),
-        datetime(year = dataref[0], month = dataref[1] + infocens[0] - 1, day = 1),
-        freq = "MS",
-    )
+    datas_simul = gera_vetor_datas(infocens, dataref)
 
     submercs = Sistema.le_arquivo(dir).mercado_energia["Subsistema"].unique()
     dados = pd.DataFrame()
@@ -135,11 +156,7 @@ def le_aquivoSIN(dir: str, cls: type, infocens: tuple, dataref: tuple) -> pd.Dat
         Tupla contendo ano e mes, como inteiros, da data de referencia do PMO
     """
 
-    datas_simul = pd.date_range(
-        datetime(year = dataref[0], month = dataref[1], day = 1),
-        datetime(year = dataref[0], month = dataref[1] + infocens[0] - 1, day = 1),
-        freq = "MS",
-    )
+    datas_simul = gera_vetor_datas(infocens, dataref)
 
     earm_sin = cls.le_arquivo(dir, cls.__name__.lower() + ".out")
     dados = arruma_blockfile(earm_sin.valores)
