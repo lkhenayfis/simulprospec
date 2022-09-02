@@ -8,6 +8,7 @@ from inewave.config import MESES_DF
 from inewave.newave.ree import REE
 from inewave.newave.sistema import Sistema
 from inewave.newave.dger import DGer
+from inewave.newave.vazoes import Vazoes
 from inewave.nwlistop.earmfp import Earmfp
 from inewave.nwlistop.eafb import Eafb
 from inewave.nwlistop.ghtot import Ghtot
@@ -180,6 +181,9 @@ def le_saidas(dir: str) -> None:
 
     tempdir = tempfile.mkdtemp()
     outzip = os.path.join(dir, "simul_prospec.zip")
+
+    vazoes = Vazoes.le_arquivo(dir)
+    vazoes.vazoes.to_csv(os.path.join(tempdir, "vazoes.csv"))
 
     earm_ree = le_aquivoREE(dir, Earmfp, infocens, dataref)
     earm_ree.to_csv(os.path.join(tempdir, "earm_ree.csv"))
