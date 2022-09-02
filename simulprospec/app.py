@@ -13,7 +13,8 @@ def cli():
 
 @click.command()
 @click.argument("dir_deck")
-def montaentradas(dir_deck):
+@click.argument("modo")
+def montaentradas(dir_deck, modo):
 
     """
     Modificacao dos arquivos dger.dat e vazoes.dat para simulacao final com cenarios
@@ -22,9 +23,12 @@ def montaentradas(dir_deck):
     Argumentos
 
     dir_deck: diretorio contendo os arquivos do deck a ser rodado
+    modo: Modo de execucao -> 1 prepara dger para simulacao historica; 2 p consistencia de dados
     """
 
-    md.modifica_dger(dir_deck)
+    modo = int(modo)
+
+    md.modifica_dger(dir_deck, modo)
     md.modifica_vazoes(dir_deck)
 
     pass

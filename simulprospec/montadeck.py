@@ -44,7 +44,7 @@ def le_cenarios(dir: str, early: bool = False) -> tuple:
 
     return (out, nmeses, ncens)
 
-def modifica_dger(dir: str) -> None:
+def modifica_dger(dir: str, modo: int = 1) -> None:
 
     """
     Modifica o dger.dat para rodar apenas simulacao final com series historicas
@@ -53,13 +53,19 @@ def modifica_dger(dir: str) -> None:
     ----------
     dir : str
         Diretorio onde se encontram os arquivos de entrada do caso
+    modo : int
+        Modo de execucao: 1 prepara dger para simulacao historica; 2 p consistencia de dados
     """
 
     dadosgerais = DGer.le_arquivo(dir)
 
-    dadosgerais.tipo_execucao = 0
-    dadosgerais.tipo_simulacao_final = 2
-
+    if modo == 1:
+        dadosgerais.tipo_execucao = 0
+        dadosgerais.tipo_simulacao_final = 2
+    else:
+        dadosgerais.tipo_execucao = 1
+        dadosgerais.tipo_simulacao_final = 3
+        
     dadosgerais.escreve_arquivo(dir)
 
     pass
