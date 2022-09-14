@@ -16,6 +16,7 @@ from inewave.nwlistop.gttot import Gttot
 from inewave.nwlistop.earmfpsin import EarmfpSIN
 from inewave.nwlistop.eafbsin import EafbSIN
 from inewave.nwlistop.ghtotsin import GhtotSIN
+from inewave.nwlistop.gttotsin import GttotSIN
 
 def arruma_blockfile(data: pd.DataFrame) -> pd.DataFrame:
 
@@ -205,6 +206,9 @@ def le_saidas(dir: str) -> None:
 
     ghtot_sin = le_aquivoSIN(dir, GhtotSIN, infocens, dataref)
     ghtot_sin.to_csv(os.path.join(tempdir, "ghtot_sin.csv"))
+
+    gttot_sin = le_aquivoSIN(dir, GttotSIN, infocens, dataref)
+    gttot_sin.to_csv(os.path.join(tempdir, "gttot_sin.csv"))
 
     with ZipFile(outzip, "w") as zip:
         for path, subdir, files in os.walk(tempdir):
