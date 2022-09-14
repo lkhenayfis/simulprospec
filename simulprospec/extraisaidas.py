@@ -187,7 +187,7 @@ def le_saidas(dir: str) -> None:
     vazoes.vazoes.to_csv(os.path.join(tempdir, "vazoes.csv"))
 
     earm_ree = le_aquivoREE(dir, Earmfp, infocens, dataref)
-    earm_ree.to_csv(os.path.join(tempdir, "earm_ree.csv"))
+    earm_ree.to_csv(os.path.join(tempdir, "earmfp_ree.csv"))
 
     eafb_ree = le_aquivoREE(dir, Eafb, infocens, dataref)
     eafb_ree.to_csv(os.path.join(tempdir, "eafb_ree.csv"))
@@ -199,7 +199,7 @@ def le_saidas(dir: str) -> None:
     gttot_merc.to_csv(os.path.join(tempdir, "gttot_merc.csv"))
 
     earm_sin = le_aquivoSIN(dir, EarmfpSIN, infocens, dataref)
-    earm_sin.to_csv(os.path.join(tempdir, "earm_sin.csv"))
+    earm_sin.to_csv(os.path.join(tempdir, "earmfp_sin.csv"))
 
     eafb_sin = le_aquivoSIN(dir, EafbSIN, infocens, dataref)
     eafb_sin.to_csv(os.path.join(tempdir, "eafb_sin.csv"))
