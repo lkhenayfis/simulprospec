@@ -1,3 +1,4 @@
+import os
 from inspect import _void
 import pandas as pd
 from inewave.newave.dger import DGer
@@ -101,5 +102,6 @@ def modifica_vazoes(dir: str) -> None:
         vazoes.vazoes.loc[reg_muda[i], vazoes.vazoes.columns] = cenarios[i]
     
     vazoes.escreve_arquivo(dir)
+    vazoes.vazoes.to_csv("vazoes.csv")
 
     pass
