@@ -64,16 +64,17 @@ def le_saidas(dir: str) -> None:
     """
     Leitura dos arquivos simulados de interesse e salvamento de um zip os contendo
 
+    Se assume que a pasta onde estao as saidas do sintetizador esta na raiz do caso, de modo que um
+    nivel acima estejam os arquivos do deck como o dger.dat
+
     Parametros
     ----------
     dir : str
         Diretorio contendo saidas do sintetizador-newave
     """
 
-    updir = os.path.join(dir, "..")
-
-    infocens = le_cenarios(updir, True)
-    dataref = (DGer.le_arquivo(updir).ano_inicio_estudo, DGer.le_arquivo(updir).mes_inicio_estudo)
+    infocens = le_cenarios("..", True)
+    dataref = (DGer.le_arquivo("..").ano_inicio_estudo, DGer.le_arquivo("..").mes_inicio_estudo)
 
     datas = gera_vetor_datas(infocens, dataref)
 
