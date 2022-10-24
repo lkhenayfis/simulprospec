@@ -51,11 +51,11 @@ def le_arquivo(arq: str, datas: pd.DatetimeIndex, infocens: tuple) -> pd.DataFra
     """
 
     dados = pd.read_csv(arq)
-    dados["Data"] = pd.to_datetime(dados["Data"])
+    dados["dataInicio"] = pd.to_datetime(dados["dataInicio"])
     cols = dados.columns
-    cols = cols[:(cols.tolist().index("Data")) + infocens[1] + 1]
+    cols = cols[:(cols.tolist().index("dataFim")) + infocens[1] + 1]
 
-    dados = dados.loc[(dados["Data"] >= datas[0]) & (dados["Data"] <= datas[-1]), cols]
+    dados = dados.loc[(dados["dataInicio"] >= datas[0]) & (dados["dataInicio"] <= datas[-1]), cols]
 
     return dados
 
