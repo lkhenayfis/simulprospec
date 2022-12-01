@@ -52,10 +52,11 @@ def le_arquivo(arq: str, datas: pd.DatetimeIndex, infocens: tuple) -> pd.DataFra
 
     dados = pd.read_csv(arq)
     dados["dataInicio"] = pd.to_datetime(dados["dataInicio"])
-    cols = dados.columns
-    cols = cols[:(cols.tolist().index("dataFim")) + infocens[1] + 1]
+    sub_cenarios = list(range(1, infocens[1] + 1))
+    sub_cenarios = [str(s) for s in sub_cenarios]
 
-    dados = dados.loc[(dados["dataInicio"] >= datas[0]) & (dados["dataInicio"] <= datas[-1]), cols]
+    dados = dados.loc[dados.cenario.isin(sub_cenarios)]
+    dados = dados.loc[(dados["dataInicio"] >= datas[0]) & (dados["dataInicio"] <= datas[-1])]
 
     return dados
 
